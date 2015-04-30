@@ -39,9 +39,13 @@ function tablestuff(data, tabletop) {
         result = [],
         isA = false;
     for(var i = 0; i < parts.length; i++) {
-      result[i] = parts[i];
-      if (isA && /^[aeiou]/i.test(parts[i])) {
+      var clean = parts[i].replace(/\s+/, ' ').replace(/\s+$/, '').replace(/^\s+/, '');
+      result[i] = clean;
+      if (isA && /^[aeiou]/i.test(clean)) {
         result[i-1] = "an";
+      }
+      if (i>0 && /[?!.]$/.test(result[i-1])) {
+        result[i] = capitaliseFirstLetter(result[i]);
       }
       isA = (parts[i] == "a");
     }
