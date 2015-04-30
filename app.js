@@ -40,7 +40,7 @@ function tablestuff(data, tabletop) {
         isA = false;
     for(var i = 0; i < parts.length; i++) {
       result[i] = parts[i];
-      if (isA && /^[aeiou]/.test(parts[i])) {
+      if (isA && /^[aeiou]/i.test(parts[i])) {
         result[i-1] = "an";
       }
       isA = (parts[i] == "a");
