@@ -47,7 +47,7 @@ function tablestuff(data, tabletop) {
       if (i>0 && /[?!.]$/.test(result[i-1])) {
         result[i] = capitaliseFirstLetter(result[i]);
       }
-      isA = (parts[i] == "a");
+      isA = (clean.toLowerCase() == "a");
     }
     text.innerHTML = capitaliseFirstLetter(result.join(" "));
   };
