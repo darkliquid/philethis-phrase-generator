@@ -11,19 +11,19 @@ function tablestuff(data, tabletop) {
       text = document.getElementById('phrase');
 
   function generate() {
-    var phrase = randomArrayElement(data.Phrase.elements).phrase,
+    var phrase = randomArrayElement(data.Phrase.elements).Phrase,
         replacer = function(match, key) {
           if(key) {
-            var column = key.toLowerCase(), row;
+            var column = key, row;
             if(key.indexOf('-') > -1) {
               var tmp = key.split('-');
               key = tmp[0];
               row = randomArrayElement(data[key].elements);
-              var result = row[tmp[1].toLowerCase()];
+              var result = row[tmp[1]];
               if(result && result.length > 0) {
                 return result;
               } else {
-                column = key.toLowerCase();
+                column = key;
               }
             } else {
               row = randomArrayElement(data[key].elements);
@@ -34,8 +34,18 @@ function tablestuff(data, tabletop) {
           }
         };
 
-    var p = phrase.replace(/\%([A-Za-z\-]+)\%/g, replacer);
-    text.innerHTML = capitaliseFirstLetter(p) + '. ';
+    var p = phrase.replace(/\%([A-Za-z\-]+)\%/g, replacer),
+        parts = p.split(" "),
+        result = [],
+        isA = false;
+    for(var i = 0; i < parts.length; i++) {
+      result[i] = parts[i];
+      if (isA && /^[aeiou]/.test(parts[i])) {
+        result[i-1] = "an";
+      }
+      isA = (parts[i] == "a");
+    }
+    text.innerHTML = capitaliseFirstLetter(result.join(" "));
   };
 
   button.onclick = generate;
@@ -43,7 +53,7 @@ function tablestuff(data, tabletop) {
 }
 
 Tabletop.init( {
-  key: '0AuER3PNq5JgBdHZraTdNdHE3NTdCTWw3YVVHQVgyTXc',
+  key: 'https://docs.google.com/spreadsheets/d/1RShLhObE6VK1CSRVLKOV-A03mmDzi3fq2p1Hny4X9OA/pubhtml',
   callback: tablestuff,
   simpleSheet: false,
   parameterize: 'http://darkliquid.co.uk/playground/numenera/philethis/proxy.php?url='

@@ -1,5 +1,9 @@
 <?php
 
+if (extension_loaded ('newrelic')) {
+    newrelic_set_appname ("Numenera Philethis Phrase Generator");
+}
+
 /* gets the contents of a file if it exists, otherwise grabs and caches */
 function get_content($file,$url,$hours = 24,$fn = '',$fn_args = '') {
 	//vars
@@ -36,12 +40,11 @@ $file = 'cache.'.md5($purl['path']).'.html';
 $query = array();
 parse_str($purl['query'], $query);
 
-if($purl['host'] != 'spreadsheets.google.com' || strpos($purl['path'], '0AuER3PNq5JgBdHZraTdNdHE3NTdCTWw3YVVHQVgyTXc') === false) {
+if($purl['host'] != 'spreadsheets.google.com' || strpos($purl['path'], '1RShLhObE6VK1CSRVLKOV-A03mmDzi3fq2p1Hny4X9OA') === false) {
 	header("HTTP/1.0 401 Bad Request");
 	die("Host or key not correct: $url");
 }
 
 $output = get_content($file, $url);
 echo preg_replace('/Tabletop.callbacks.tt\d+/', $query['callback'], $output);
-
 ?>
